@@ -1,35 +1,55 @@
 package tickets;
 
-import java.sql.Time;
 
 public class BoardingPass {
+    public String boardingTime;
+    public String gate;
+    public String seat;
+    public int ticketNum;
+    public String passengerName;
 
-    public Time boardingTime;
-    private String gate;
-    private String seat;
-    private Ticket ticket;
-    public Passenger passenger;
-
-    public BoardingPass(String gate, String seat, Time boardingTime) {
-        this.gate = gate;
-        this.seat = seat;
-        this.boardingTime = boardingTime;
-
-    }
-
-    public String getGate() {
-        return gate;
-    }
-
-    public String getSeat() {
-        return seat;
-    }
-
-    public int getTicketNum() {
-        return ticket.getTicketNum();
+    private BoardingPass(Builder builder) {
+        this.boardingTime = builder.boardingTime;
+        this.gate = builder.gate;
+        this.seat = builder.seat;
+        this.ticketNum = builder.ticketNum;
+        this.passengerName = builder.passengerName;
     }
 
 
+    public static class Builder {
+        public String boardingTime;
+        public String gate;
+        public String seat;
+        public int ticketNum;
+        public String passengerName;
+
+        public Builder(int ticketNum) {
+            this.ticketNum = ticketNum;
+        }
+
+        public Builder isFlying(String passengerName) {
+            this.passengerName = passengerName;
+            return this;
+        }
+
+        public Builder withBoardingTime(String boardingTime) {
+            this.boardingTime = boardingTime;
+            return this;
+        }
+
+        public Builder atGate(String gate) {
+            this.gate = gate;
+            return this;
+        }
+
+        public Builder inSeat(String seat) {
+            this.seat = seat;
+            return this;
+        }
+
+        public BoardingPass build() {
+            return new BoardingPass(this);
+        }
+    }
 }
-
-
