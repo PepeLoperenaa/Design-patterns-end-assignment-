@@ -3,7 +3,7 @@ package tickets;
 import flights.Flight;
 
 public class Ticket {
-    private String passengerName;
+    private Passenger passenger;
     private Flight flight;
     private int ticketNum;
     private TicketType ticketType;

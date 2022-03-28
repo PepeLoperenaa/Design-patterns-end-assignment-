@@ -1,5 +1,7 @@
 package flights
 
+import tickets.TicketPool
+
 class Flight {
     var id: String? = null
     var flightName: String? = null
@@ -25,6 +27,20 @@ class Flight {
     var destination: String? = null
     var visa: Boolean? = null
     var eu: String? = null
+    lateinit var tp: TicketPool
+
+
+    fun setTicketPool() {
+        tp = when (aircraftType?.iataMain) {
+            "737" -> TicketPool(188)
+            "747", "74F" -> TicketPool(366)
+            "787" -> TicketPool(330)
+            "ABF" -> TicketPool(440)
+            else -> {
+                TicketPool(250)
+            }
+        }
+    }
 
     override fun toString(): String {
         return "$flightName | $estimatedLandingTime | $actualLandingTime | $terminal | $gate | $flightNumber | $scheduleDateTime | $lastUpdated"

@@ -2,10 +2,7 @@ package tickets;
 
 import flights.PlaneType;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-import java.util.Arrays;
+import java.util.*;
 
 /**
  * Object pool base creates empty tickets.
@@ -19,10 +16,19 @@ public class TicketPool {
         pool = new Ticket[DEFAULT_SIZE];
     }
 
+    public TicketPool(int size, Long terminal, String flightName, int flightnumber){
+        pool = new Ticket[size];
+        for(Ticket item : pool){
+            item.setTicketNum(flightnumber);
+
+        }
+    }
+
     public void acquireReusable() { //create ticket instances
         int i = 0; //counter to add objects in array.
+        Passenger p = new Passenger("bob", "obo", new Date(12/05/2000), true);
         for (Ticket ticket : pool) {
-            Ticket t = new Ticket("name", 0); //change with setter when tickets are called.
+            Ticket t = new Ticket(p , 0); //change with setter when tickets are called.
             if (pool.length != DEFAULT_SIZE) {
                 pool[i] = t; //adding first ticket in position 0
                 i++; //after every iteration add one to the counter until it reaches max ticket size.
