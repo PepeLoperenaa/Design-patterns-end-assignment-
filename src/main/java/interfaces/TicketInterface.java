@@ -1,5 +1,6 @@
 package interfaces;
+import tickets.Ticket;
 
 public interface TicketInterface {
-    public void doSomething();
+    public void changeFlight(int ticketNum);
 }

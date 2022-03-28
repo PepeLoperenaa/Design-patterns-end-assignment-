@@ -60,6 +60,7 @@ class AirportApi {
                             flight.scheduleDateTime = jsonObject["scheduleDateTime"] as String?
                             flight.mainFlight = jsonObject["mainFlight"] as String?
                             flight.gate = jsonObject["gate"] as String?
+                            flight.setTicketPool()
                             flightList.add(flight)
                         } catch (e: Exception) {
                             e.printStackTrace()

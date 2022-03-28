@@ -29,4 +29,8 @@ class Flight {
     override fun toString(): String {
         return "$flightName | $estimatedLandingTime | $actualLandingTime | $terminal | $gate | $flightNumber | $scheduleDateTime | $lastUpdated"
     }
+
+    fun getTicketnr(): T{
+        tp.releaseTicket()
+    }
 }

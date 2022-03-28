@@ -3,10 +3,14 @@ package tickets;
 public class FlexTicketProxy extends FlexImpl{
 
     @Override
-    public void doSomething()
+    public void changeFlight(int ticketNum) //already created ticket which a passenger has.
     {
-        System.out.println("working");
-        super.doSomething();
+
     }
+    //logic
+
+    //use ticket num to find ticket in collection of tickets ?
+    //change ticket flight
+    //change ticket type
 
 }

@@ -9,21 +9,26 @@ public class Ticket {
     private TicketType ticketType;
     private TicketPool ticket;
 
-    public Ticket(String passengerName, int ticketNum) {
-        this.passengerName = passengerName;
+
+    public Ticket(Passenger p, int ticketNum) {
+        this.passenger = p;
         this.ticketNum = ticketNum;
     }
 
-    public String getPassengerName() {
-        return passengerName;
+    public Passenger getPassenger() {
+        return passenger;
     }
 
-    public void setPassengerName(String passengerName) {
-        this.passengerName = passengerName;
+    public void setPassenger(Passenger passenger) {
+        this.passenger = passenger;
     }
 
     public Flight getFlight() {
         return flight;
+    }
+
+    public void setFlight(Flight flight){
+        this.flight = flight;
     }
 
     public int getTicketNum() {

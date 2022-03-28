@@ -25,7 +25,7 @@ public class Main {
         AirportApi AirportApi = new AirportApi();
         AirportApi.getFlight();
         //return "$flightName $estimatedLandingTime $actualLandingTime $terminal $flightNumber $scheduleDateTime $lastUpdated"
-        System.out.println("Flightname | estimated Landing Time | actual landing time | terminal | gate | flightnumber | scheduled date | last updated |");
+        System.out.println("Flight name | estimated Landing Time | actual landing time | terminal | gate | flightnumber | scheduled date | last updated |");
         NoticeBoard noticeBoard = new NoticeBoard(AirportApi.getFlight());
     }
 }
