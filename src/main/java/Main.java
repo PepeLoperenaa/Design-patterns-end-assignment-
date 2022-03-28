@@ -17,5 +17,7 @@ public class Main {
                 .build();
         System.out.println(bp.gate);
 
+        FlexImpl proxy = new FlexTicketProxy();
+        proxy.doSomething();
     }
 }
