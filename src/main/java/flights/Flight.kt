@@ -14,10 +14,19 @@ class Flight {
     var codeshares: String? = null
     var estimatedLandingTime: String? = null
     var actualLandingTime: String? = null
-    var terminal: Int? = null
-    var flightNumber: Int? = null
+    var terminal: Long? = null
+    var flightNumber: Long? = null
     var baggageClaim: Int? = null
     var expectedTimeOnBelt: String? = null
     var publicFlightState: String? = null
     var expectedTimeGateOpen: String? = null
+    var lastUpdated: String? = null
+    var gate: String? = null
+    var destination: String? = null
+    var visa: Boolean? = null
+    var eu: String? = null
+
+    override fun toString(): String {
+        return "$flightName | $estimatedLandingTime | $actualLandingTime | $terminal | $gate | $flightNumber | $scheduleDateTime | $lastUpdated"
+    }
 }

@@ -1,27 +1,22 @@
 package airport
 
 import com.google.gson.Gson
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.JsonParser
 import flights.Flight
-import org.apache.http.impl.client.HttpClients
-import org.apache.http.client.methods.HttpGet
+import flights.PlaneType
 import org.apache.http.HttpStatus
 import org.apache.http.ParseException
 import org.apache.http.client.HttpClient
+import org.apache.http.client.methods.HttpGet
+import org.apache.http.impl.client.HttpClients
 import org.apache.http.util.EntityUtils
-import org.json.simple.parser.JSONParser
-import org.json.simple.JSONObject
 import org.json.simple.JSONArray
-import java.lang.ArrayIndexOutOfBoundsException
+import org.json.simple.JSONObject
+import org.json.simple.parser.JSONParser
 import java.io.IOException
-import java.lang.Exception
-import java.util.*
 
 class AirportApi {
     private lateinit var flightList: ArrayList<Flight>
-    val flight: Unit
+    val flight: ArrayList<Flight>
         get() {
             try {
                 val APP_ID = "975bc6d0"
@@ -38,26 +33,39 @@ class AirportApi {
                     val gson = Gson()
                     val parser = JSONParser()
                     val json = parser.parse(responseBody) as JSONObject
-                    val flights:JSONArray = json["flights"] as JSONArray
+                    val flights: JSONArray = json["flights"] as JSONArray
                     //val flights = jsonObject.asJsonArray
                     flightList = arrayListOf()
                     //println("found " + flights.size + " flights")
-                    for(element in flights){
+                    for (element in flights) {
                         try {
-                            val jsonObject : JSONObject = element as JSONObject
-                            println(jsonObject)
-                            println(jsonObject["flightName"])
-                            val flight : Flight = Flight()
-                            flight.flightName= jsonObject["flightName"] as String
-
-
+                            val jsonObject: JSONObject = element as JSONObject
+                            val flight = Flight()
+                            flight.flightName = jsonObject["flightName"] as String?
+                            var planeType = PlaneType()
+                            val planeInfo: JSONObject = jsonObject["aircraftType"] as JSONObject
+                            planeType.iataMain = planeInfo["iataMain"] as String?
+                            planeType.iataSub = planeInfo["iataSub"] as String?
+                            flight.aircraftType = planeType
+                            flight.terminal = jsonObject["terminal"] as Long?
+                            flight.flightNumber = jsonObject["flightNumber"] as Long?
+                            flight.lastUpdated = jsonObject["lastUpdatedAt"] as String?
+                            flight.actualLandingTime = jsonObject["actualLandingTime"] as String?
+                            flight.estimatedLandingTime = jsonObject["estimatedLandingTime"] as String?
+                            flight.pier = jsonObject["pier"] as String?
+                            val route: JSONObject = jsonObject["route"] as JSONObject
+                            flight.visa = route["gate"] as Boolean?
+                            flight.destination = route["destinations"].toString()
+                            flight.eu = route["eu"] as String?
+                            flight.scheduleDateTime = jsonObject["scheduleDateTime"] as String?
+                            flight.mainFlight = jsonObject["mainFlight"] as String?
+                            flight.gate = jsonObject["gate"] as String?
                             flightList.add(flight)
-                        }catch (e:Exception){
+                        } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     }
                 } else {
-
                     println(
                         """
                         Oops something went wrong
@@ -75,5 +83,6 @@ class AirportApi {
             } catch (e: org.json.simple.parser.ParseException) {
                 e.printStackTrace()
             }
+            return flightList
         }
 }

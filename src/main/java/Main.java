@@ -1,3 +1,6 @@
+import airport.AirportApi;
+import airport.NoticeBoard;
+import flights.Flight;
 import tickets.BoardingPass;
 import tickets.FlexTicketProxy;
 import tickets.TicketPool;
@@ -19,7 +22,10 @@ public class Main {
                 .build();
         System.out.println(bp.gate);
 
-        FlexImpl proxy = new FlexTicketProxy();
-        proxy.doSomething();
+        AirportApi AirportApi = new AirportApi();
+        AirportApi.getFlight();
+        //return "$flightName $estimatedLandingTime $actualLandingTime $terminal $flightNumber $scheduleDateTime $lastUpdated"
+        System.out.println("Flightname | estimated Landing Time | actual landing time | terminal | gate | flightnumber | scheduled date | last updated |");
+        NoticeBoard noticeBoard = new NoticeBoard(AirportApi.getFlight());
     }
 }
