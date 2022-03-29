@@ -1,55 +1,60 @@
-package tickets;
+package tickets
 
+import kotlin.random.Random
 
-public class BoardingPass {
-    public String boardingTime;
-    public String gate;
-    public String seat;
-    public int ticketNum;
-    public String passengerName;
+class BoardingPass private constructor(builder: Builder) {
+    var boardingTime: String?
+    var gate: String?
+    private var seat: String?
+    private var ticket: Ticket
+    var passengerName: String?
 
-    private BoardingPass(Builder builder) {
-        this.boardingTime = builder.boardingTime;
-        this.gate = builder.gate;
-        this.seat = builder.seat;
-        this.ticketNum = builder.ticketNum;
-        this.passengerName = builder.passengerName;
+    init {
+        boardingTime = builder.boardingTime
+        gate = builder.gate
+        seat = builder.seat
+        ticket = builder.ticket
+        passengerName = builder.passengerName
     }
 
+    class Builder(var ticket: Ticket) {
+        var boardingTime: String? = null
+        var gate: String? = null
+        var seat: String? = null
+        var passengerName: String? = null
 
-    public static class Builder {
-        public String boardingTime;
-        public String gate;
-        public String seat;
-        public int ticketNum;
-        public String passengerName;
-
-        public Builder(int ticketNum) {
-            this.ticketNum = ticketNum;
+        fun isFlying(): Builder {
+            this.passengerName = ticket.passenger?.firstname.plus(ticket.passenger?.lastName)
+            return this
         }
 
-        public Builder isFlying(String passengerName) {
-            this.passengerName = passengerName;
-            return this;
+        fun withBoardingTime(): Builder {
+            this.boardingTime = ticket.flight?.expectedTimeGateOpen
+            return this
         }
 
-        public Builder withBoardingTime(String boardingTime) {
-            this.boardingTime = boardingTime;
-            return this;
+        fun atGate(): Builder {
+            this.gate = ticket.flight!!.gate
+            if(gate == null){
+                println("Gate not set yet.")
+            }
+            return this
         }
 
-        public Builder atGate(String gate) {
-            this.gate = gate;
-            return this;
+
+        fun inSeat(): Builder {
+            return try {
+                this.seat = Random.nextInt(0, ticket.flight!!.tp.size).toString()
+                this
+            } catch (e : Exception){
+                e.printStackTrace()
+                this
+            }
+
         }
 
-        public Builder inSeat(String seat) {
-            this.seat = seat;
-            return this;
-        }
-
-        public BoardingPass build() {
-            return new BoardingPass(this);
+        fun build(): BoardingPass {
+            return BoardingPass(this)
         }
     }
 }
