@@ -1,4 +1,3 @@
-package flights;
+package flights
 
-public enum flightStatus {
-}
+enum class flightStatus 

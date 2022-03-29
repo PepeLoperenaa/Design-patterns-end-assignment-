@@ -1,17 +1,13 @@
-package tickets;
-import interfaces.TicketInterface;
+package tickets
 
-public class FlexImpl implements TicketInterface{
+import interfaces.TicketInterface
 
-    @Override
-    public void changeFlight(int ticketNum){
-    //select ticket
+open class FlexImpl : TicketInterface {
+    override fun changeFlight(ticketNum: Int) {
+        //select ticket
         //ticket.getFlightNum
         //ticket.setFlightNum
         //ticket.getTicketType
         //ticket.setTicketType
-
-
     }
 }
-

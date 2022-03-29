@@ -1,6 +1,5 @@
-package interfaces;
-import tickets.Ticket;
+package interfaces
 
-public interface TicketInterface {
-    public void changeFlight(int ticketNum);
+interface TicketInterface {
+    fun changeFlight(ticketNum: Int)
 }

@@ -1,47 +1,23 @@
-package tickets;
+package tickets
 
-import flights.Flight;
+import tickets.Passenger
+import flights.Flight
+import tickets.TicketType
+import tickets.TicketPool
 
-public class Ticket {
-    private Passenger passenger;
-    private Flight flight;
-    private int ticketNum;
-    private TicketType ticketType;
-    private TicketPool ticket;
+class Ticket {
+    var passenger: Passenger? = null
+    var flight: Flight? = null
+    var ticketNum: String
+    private val ticketType: TicketType? = null
+    val ticket: TicketPool? = null
 
-
-    public Ticket(Passenger p, int ticketNum) {
-        this.passenger = p;
-        this.ticketNum = ticketNum;
+    constructor(ticketNum: String) {
+        this.ticketNum = ticketNum
     }
 
-    public Passenger getPassenger() {
-        return passenger;
+    constructor(p: Passenger?, ticketNum: String) {
+        passenger = p
+        this.ticketNum = ticketNum
     }
-
-    public void setPassenger(Passenger passenger) {
-        this.passenger = passenger;
-    }
-
-    public Flight getFlight() {
-        return flight;
-    }
-
-    public void setFlight(Flight flight){
-        this.flight = flight;
-    }
-
-    public int getTicketNum() {
-        return ticketNum;
-    }
-
-    public void setTicketNum(int ticketNum) {
-        this.ticketNum = ticketNum;
-    }
-
-    public TicketPool getTicket() {
-        return ticket;
-    }
-
 }
-
