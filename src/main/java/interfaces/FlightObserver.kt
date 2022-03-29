@@ -1,3 +1,8 @@
 package interfaces
 
-interface FlightObserver 
+import flights.Flight
+
+interface FlightObserver {
+    fun update(flights: ArrayList<Flight>)
+    fun isFlight() : Boolean
+}

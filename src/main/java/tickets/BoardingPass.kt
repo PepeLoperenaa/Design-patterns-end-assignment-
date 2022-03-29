@@ -29,12 +29,12 @@ class BoardingPass private constructor(builder: Builder) {
         }
 
         fun withBoardingTime(): Builder {
-            this.boardingTime = ticket.flight?.expectedTimeGateOpen
+            this.boardingTime = ticket.flight.expectedTimeGateOpen
             return this
         }
 
         fun atGate(): Builder {
-            this.gate = ticket.flight!!.gate
+            this.gate = ticket.flight.gate
             if(gate == null){
                 println("Gate not set yet.")
             }
@@ -44,7 +44,7 @@ class BoardingPass private constructor(builder: Builder) {
 
         fun inSeat(): Builder {
             return try {
-                this.seat = Random.nextInt(0, ticket.flight!!.tp.size).toString()
+                this.seat = Random.nextInt(0, ticket.flight.tp.size).toString()
                 this
             } catch (e : Exception){
                 e.printStackTrace()

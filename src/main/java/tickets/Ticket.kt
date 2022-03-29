@@ -7,9 +7,8 @@ import flights.Flight
 open class Ticket {
     var passenger: Passenger? = null
     lateinit var flight: Flight
-    private var ticketNum: String
+    var ticketNum: String
     private val ticketType: TicketType? = null
-    val ticket: TicketPool? = null
 
     constructor(ticketNum: String, flight:Flight) {
         this.ticketNum = ticketNum

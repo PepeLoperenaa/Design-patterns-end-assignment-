@@ -1,8 +1,9 @@
 package flights
 
+import interfaces.FlightObserver
 import tickets.TicketPool
 
-class Flight {
+class Flight : FlightObserver {
     var id: String? = null
     var flightName: String? = null
     var pier: String? = null
@@ -42,8 +43,32 @@ class Flight {
         }
     }
 
+    override fun update(flights: ArrayList<Flight>) {
+        for(flight in flights){
+            if(flight.flightNumber == this.flightNumber){
+                if(this.estimatedLandingTime != flight.estimatedLandingTime){
+                    this.estimatedLandingTime = flight.estimatedLandingTime
+                } else if(this.lastUpdated != flight.lastUpdated){
+                    this.lastUpdated = flight.lastUpdated
+                }else if(this.pier != flight.pier){
+                    this.pier = flight.pier
+                }else if(this.gate != flight.gate){
+                    this.gate = flight.gate
+                }else if(this.terminal != flight.terminal){
+                    this.terminal = flight.terminal
+                }else if(this.actualLandingTime != flight.actualLandingTime){
+                    this.actualLandingTime = flight.actualLandingTime
+                }
+            }
+        }
+    }
+
     override fun toString(): String {
         return "$flightName | $estimatedLandingTime | $actualLandingTime | $terminal | $gate | $flightNumber | $scheduleDateTime | $lastUpdated"
+    }
+
+    override fun isFlight(): Boolean {
+        return true
     }
 
 }
