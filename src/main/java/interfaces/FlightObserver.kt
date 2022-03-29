@@ -1,4 +1,3 @@
-package interfaces;
+package interfaces
 
-public interface FlightObserver {
-}
+interface FlightObserver 

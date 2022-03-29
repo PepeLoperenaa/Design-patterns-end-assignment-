@@ -1,14 +1,14 @@
-package airport;
+package airport
 
-import flights.Flight;
+import flights.Flight
+import kotlin.collections.ArrayList
 
-import java.util.ArrayList;
-
-public class NoticeBoard {
-    public NoticeBoard(ArrayList<Flight> flights){
-        for(int i = 0; flights.size() > i; i++){
-            System.out.println(flights.get(i));
+class NoticeBoard(flights: ArrayList<Flight>) {
+    init {
+        var i = 0
+        while (flights.size > i) {
+            println(flights[i])
+            i++
         }
     }
-
 }

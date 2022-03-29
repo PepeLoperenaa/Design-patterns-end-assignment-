@@ -32,12 +32,12 @@ class Flight {
 
     fun setTicketPool() {
         tp = when (aircraftType?.iataMain) {
-            "737" -> TicketPool(188)
-            "747", "74F" -> TicketPool(366)
-            "787" -> TicketPool(330)
-            "ABF" -> TicketPool(440)
+            "737" -> TicketPool(188, this)
+            "747", "74F" -> TicketPool(366, this)
+            "787" -> TicketPool(330, this)
+            "ABF" -> TicketPool(440, this)
             else -> {
-                TicketPool(250)
+                TicketPool(250, this)
             }
         }
     }
@@ -46,7 +46,4 @@ class Flight {
         return "$flightName | $estimatedLandingTime | $actualLandingTime | $terminal | $gate | $flightNumber | $scheduleDateTime | $lastUpdated"
     }
 
-    fun getTicketnr(): T{
-        tp.releaseTicket()
-    }
 }

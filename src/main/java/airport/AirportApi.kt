@@ -1,6 +1,6 @@
 package airport
 
-import com.google.gson.Gson
+
 import flights.Flight
 import flights.PlaneType
 import org.apache.http.HttpStatus
@@ -16,7 +16,7 @@ import java.io.IOException
 
 class AirportApi {
     private lateinit var flightList: ArrayList<Flight>
-    val flight: ArrayList<Flight>
+    val flights: ArrayList<Flight>
         get() {
             try {
                 val APP_ID = "975bc6d0"
@@ -30,11 +30,9 @@ class AirportApi {
                 val response = httpClient.execute(request)
                 if (response.statusLine.statusCode == HttpStatus.SC_OK) {
                     val responseBody = EntityUtils.toString(response.entity, "UTF-8")
-                    val gson = Gson()
                     val parser = JSONParser()
                     val json = parser.parse(responseBody) as JSONObject
                     val flights: JSONArray = json["flights"] as JSONArray
-                    //val flights = jsonObject.asJsonArray
                     flightList = arrayListOf()
                     //println("found " + flights.size + " flights")
                     for (element in flights) {

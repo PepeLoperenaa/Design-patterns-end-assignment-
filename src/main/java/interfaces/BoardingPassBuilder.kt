@@ -1,10 +1,9 @@
-package interfaces;
+package interfaces
 
-public interface BoardingPassBuilder {
-void reset();
-void getPassenger();
-void getFlight();
-void getSeat();
-void getTicket();
-
+interface BoardingPassBuilder {
+    fun reset()
+    val passenger: Unit
+    val flight: Unit
+    val seat: Unit
+    val ticket: Unit
 }

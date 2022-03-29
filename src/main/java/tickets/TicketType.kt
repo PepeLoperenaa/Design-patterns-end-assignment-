@@ -1,6 +1,5 @@
-package tickets;
+package tickets
 
-public enum TicketType {
-    FLEXTICKET,
-    TICKET
+enum class TicketType {
+    FLEXTICKET, TICKET
 }
