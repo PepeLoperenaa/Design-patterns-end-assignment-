@@ -1,12 +1,12 @@
 package tickets
 
+import flights.Flight
 import tickets.FlexImpl
 
-class FlexTicketProxy : FlexImpl() {
-    override fun changeFlight(ticketNum: Int) //already created ticket which a passenger has.
-    {
-    } //logic
-    //use ticket num to find ticket in collection of tickets ?
-    //change ticket flight
-    //change ticket type
+class FlexTicketProxy(ticketNumber: String, flight: Flight) : Ticket(ticketNumber, flight) {
+
+    fun changeFlight(flight: Flight){
+        this.flight = flight
+    }
+
 }

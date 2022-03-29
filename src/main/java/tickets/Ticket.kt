@@ -1,19 +1,19 @@
 package tickets
 
-import tickets.Passenger
-import flights.Flight
-import tickets.TicketType
-import tickets.TicketPool
 
-class Ticket {
+import flights.Flight
+
+
+open class Ticket {
     var passenger: Passenger? = null
-    var flight: Flight? = null
-    var ticketNum: String
+    lateinit var flight: Flight
+    private var ticketNum: String
     private val ticketType: TicketType? = null
     val ticket: TicketPool? = null
 
-    constructor(ticketNum: String) {
+    constructor(ticketNum: String, flight:Flight) {
         this.ticketNum = ticketNum
+        this.flight = flight
     }
 
     constructor(p: Passenger?, ticketNum: String) {
