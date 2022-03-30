@@ -18,6 +18,41 @@ import java.io.IOException
 class AirportApi {
     private var observers: ArrayList<FlightObserver> = ArrayList()
     private lateinit var flightList: ArrayList<Flight>
+    private val t : Thread
+
+
+    init {
+        t = Thread {
+            while (true) {
+                var tmpList: ArrayList<Flight> = flights
+                for (element in tmpList) {
+                    for (observer in observers) {
+                        if (observer.isFlight()) {
+                            val tmpFlight: Flight = observer as Flight
+                            if (element.flightNumber == tmpFlight.flightNumber) {
+                                observer.update(tmpList)
+                            }
+                        }
+                        if (!observer.isFlight()) {
+                            val noticeBoard: NoticeBoard = observer as NoticeBoard
+                            for (item in noticeBoard.flights) {
+                                if(item.flightNumber == element.flightNumber) {
+                                    if (element.toString() != item.toString()) {
+                                        noticeBoard.update(tmpList)
+                                        break
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+                Thread.sleep(120_000)
+            }
+        }
+    }
+    /**
+     * API information
+     */
     val flights: ArrayList<Flight>
         get() {
             try {
@@ -25,7 +60,7 @@ class AirportApi {
                 val APP_ID = "975bc6d0"
                 val APP_KEY = "a802c0b2c90faffa941925455e73ec9e"
                 val httpClient: HttpClient = HttpClients.createDefault()
-                val request = HttpGet("https://api.schiphol.nl/public-flights/flights")
+                val request = HttpGet("https://api.schiphol.nl/public-flights/flights?page=150")
                 request.addHeader("ResourceVersion", "v4")
                 request.addHeader("app_id", APP_ID)
                 request.addHeader("app_key", APP_KEY)
@@ -53,8 +88,8 @@ class AirportApi {
                             flight.mainFlight = jsonObject["mainFlight"] as String?
                             flight.gate = jsonObject["gate"] as String?
 
-                            // Getting the information about the plaintype from the planetype jsonobject
-                            var planeType = PlaneType()
+                            // Getting the information about the planetype from the planetype jsonobject
+                            val planeType = PlaneType()
                             val planeInfo: JSONObject = jsonObject["aircraftType"] as JSONObject
                             planeType.iataMain = planeInfo["iataMain"] as String?
                             planeType.iataSub = planeInfo["iataSub"] as String?
@@ -95,40 +130,21 @@ class AirportApi {
             return flightList
         }
 
-    init {
-        Thread {
-            while(true) {
-                val tmpList = flights
-                for (element in tmpList) {
-                    for(observer in observers){
-                        if(observer.isFlight()) {
-                            val tmpFlight : Flight = observer as Flight
-                            if(element.flightNumber == tmpFlight.flightNumber){
-                                observer.update(tmpList)
-                            }
-                        }
-                        if(!observer.isFlight()) {
-                            val noticeBoard : NoticeBoard = observer as NoticeBoard
-                            for(item in noticeBoard.flights){
-                                if(element.toString() != item.toString()){
-                                    noticeBoard.update(tmpList)
-                                }
-                            }
-                        }
-                    }
-                    observers.contains(element)
-                }
-                Thread.sleep(1_000)
-            }
-        }.start()
-    }
+
 
     fun subscribe(o: FlightObserver) {
         observers.add(o)
+        if(!t.isAlive){
+            startObserver()
+        }
     }
 
     fun unsubscribe(o: FlightObserver) {
         observers.remove(o)
+    }
+
+    fun startObserver(){
+        t.start()
     }
 
     fun notifyObservers() {

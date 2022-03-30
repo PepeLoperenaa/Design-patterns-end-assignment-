@@ -2,39 +2,44 @@ package tickets
 
 import flights.Flight
 
-/*
-Needs to have dummy data and all the functions etc from Ticket. So it's own implementation.
+/**
+ * FlexTicketProxy class. Contains the methods and functions from ticket and has its own implementation.
  */
 class FlexTicketProxy {
     var ticket: Ticket? = null
     private lateinit var ticketNum: String
-    private val ticketType: TicketType? = null
+    private val ticketType: TicketType = TicketType.FLEXTICKET
 
-    //fun setPassenger(passenger: Passenger){
-    //    ticket?.passenger = passenger
-    //}
-
-    fun getTicketNum(): String{
+    /**
+     * it gets the ticket number
+     */
+    fun getTicketNum(): String {
         return if (ticket != null) {
             ticket!!.ticketNum
-        } else{
+        } else {
             "Ticket not set"
         }
     }
 
-    fun getFlight() : Flight? {
-        return if(ticket != null){
+    /**
+     * Getting the flight from the ticket.
+     */
+    fun getFlight(): Flight? {
+        return if (ticket != null) {
             ticket?.flight
-        } else{
+        } else {
             println("ticket not set")
             null
         }
     }
 
-    fun getPassenger(): Passenger?{
-        return if(ticket != null){
+    /**
+     * Getting the passenger information from the ticket.
+     */
+    fun getPassenger(): Passenger? {
+        return if (ticket != null) {
             ticket?.passenger
-        } else{
+        } else {
             println("ticket not set")
             null
         }

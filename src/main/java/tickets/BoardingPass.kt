@@ -2,11 +2,14 @@ package tickets
 
 import kotlin.random.Random
 
+/**
+ * Boarding pass Class. Includes the builder Design patterns as an internal class.
+ */
 class BoardingPass private constructor(builder: Builder) {
+    private var ticket: Ticket
     var boardingTime: String?
     var gate: String?
     private var seat: String?
-    private var ticket: Ticket
     var passengerName: String?
 
     init {
@@ -35,24 +38,26 @@ class BoardingPass private constructor(builder: Builder) {
 
         fun atGate(): Builder {
             this.gate = ticket.flight.gate
-            if(gate == null){
+            if (gate == null) {
                 println("Gate not set yet.")
             }
             return this
         }
 
-
         fun inSeat(): Builder {
             return try {
                 this.seat = Random.nextInt(0, ticket.flight.tp.size).toString()
                 this
-            } catch (e : Exception){
+            } catch (e: Exception) {
                 e.printStackTrace()
                 this
             }
 
         }
 
+        /**
+         * actually builds the boarding pass and is always returned fully initialised
+         */
         fun build(): BoardingPass {
             return BoardingPass(this)
         }

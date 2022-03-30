@@ -2,8 +2,6 @@ package tickets
 
 
 import flights.Flight
-import java.lang.IllegalArgumentException
-import java.util.ArrayList
 
 /**
  * Object pool base creates empty tickets.
@@ -18,6 +16,9 @@ class TicketPool(size: Int, flight: Flight) {
         this.size = size
     }
 
+    /**
+     * Acquire blank tickets.
+     */
     fun acquireReusable() { //create ticket instances
         for (j in 0 until size) {
             val t = Ticket(flight.flightNumber.toString() + j, flight)
@@ -26,7 +27,10 @@ class TicketPool(size: Int, flight: Flight) {
         } //this method works and stops creating blank tickets when the default size is reached.
     }
 
-    fun releaseTicket(p : Passenger): Ticket { //getting the tickets from the Array.
+    /**
+     * Releasing tickets when a flight is created.
+     */
+    fun releaseTicket(p: Passenger): Ticket { //getting the tickets from the Array.
         //make sure that the list is not 0
         require(pool.isNotEmpty())
         val lastIndex = pool.size - 1
