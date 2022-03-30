@@ -44,7 +44,7 @@ object Main {
         println(pt.getPassenger())
         airportApi.subscribe(flightList[1])
         airportApi.subscribe(noticeBoard)
-
-        println(pt.ticket!!.passenger!!.firstname)
+/*
+        println(pt.ticket!!.passenger!!.firstname)*/
     }
 }

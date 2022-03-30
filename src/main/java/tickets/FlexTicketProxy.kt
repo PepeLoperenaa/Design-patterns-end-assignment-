@@ -44,5 +44,4 @@ class FlexTicketProxy {
             null
         }
     }
-
 }
