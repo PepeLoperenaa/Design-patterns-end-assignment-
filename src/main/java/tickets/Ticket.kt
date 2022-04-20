@@ -10,7 +10,7 @@ open class Ticket {
     var passenger: Passenger? = null
     lateinit var flight: Flight
     var ticketNum: String
-    private val ticketType: TicketType = TicketType.TICKET
+    var ticketType: TicketType = TicketType.TICKET
 
     constructor(ticketNum: String, flight: Flight) {
         this.ticketNum = ticketNum

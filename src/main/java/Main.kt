@@ -19,20 +19,33 @@ object Main {
         val flightList: ArrayList<Flight> = airportApi.flights
         val noticeBoard = NoticeBoard(flightList)
         println("Full name of passenger:")
-        val (pFName, pLName) = readLine()!!.split(' ')
+        val pName = readLine()!!.split(' ')
+        val fName = pName[0]
+        var lName = if(pName.size == 3) {
+            "$pName[1] $pName[2]"
+        }
+        else if(pName.size > 3) {
+            println("not possible")
+            "$pName[1] $pName[2]"
+        }else
+        {
+            pName[1]
+        }
         println("(we filled in date of birth and gender for brevity)")
         flightList[0].tp.acquireReusable()
-        val pepe = Passenger(pFName, pLName, Date(1998, 11, 11), false)
-        val pt = FlexTicketProxy()
+        val pepe = Passenger(fName, lName, Date(1998, 11, 11), false)
+        val pt = FlexTicketProxy(pepe)
         val ticket: Ticket = flightList[0].tp.releaseTicket(pepe)
         println("Thank you "+ ticket.passenger!!.firstname+". Your flight number is "+ticket.flight.flightNumber)
 
-        println("Please look out for any updates to your flight number in the noticeboard below:")
+        println("Please look out for any updates to your flight number in the noticeboard above")
 
 
-     println("Boarding pass for $pFName is created. See details below:")
-        val bp = BoardingPass.Builder(ticket)
+     println("Boarding pass for $fName is created. See details above:")
+        val bp = BoardingPass.Builder()
             .atGate()
+            .addTicket(ticket)
+            .addPassenger(pepe)
             .inSeat()
             .withBoardingTime()
             .isFlying()
@@ -40,11 +53,9 @@ object Main {
 
 
         pt.ticket = ticket
-        pt.ticket!!.flight.gate
-        println(pt.getPassenger())
+        pt.ticket.flight.gate
         airportApi.subscribe(flightList[1])
         airportApi.subscribe(noticeBoard)
 
-        println(pt.ticket!!.passenger!!.firstname)
     }
 }

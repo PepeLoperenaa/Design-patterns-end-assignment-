@@ -24,7 +24,7 @@ class AirportApi {
     init {
         t = Thread {
             while (true) {
-                var tmpList: ArrayList<Flight> = flights
+                val tmpList: ArrayList<Flight> = flights
                 for (element in tmpList) {
                     for (observer in observers) {
                         if (observer.isFlight()) {
@@ -36,7 +36,7 @@ class AirportApi {
                         if (!observer.isFlight()) {
                             val noticeBoard: NoticeBoard = observer as NoticeBoard
                             for (item in noticeBoard.flights) {
-                                if(item.flightNumber == element.flightNumber) {
+                                if(item.flightName == element.flightName) {
                                     if (element.toString() != item.toString()) {
                                         noticeBoard.update(tmpList)
                                         break
@@ -143,19 +143,11 @@ class AirportApi {
         observers.remove(o)
     }
 
-    fun startObserver(){
+    private fun startObserver(){
         t.start()
     }
 
-    fun notifyObservers() {
-        for (element in observers) {
-            try {
+    private fun notifyObservers() {
 
-                //observers.contains()
-                element.update(flightList)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
     }
 }

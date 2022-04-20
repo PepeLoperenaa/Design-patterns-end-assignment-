@@ -6,38 +6,49 @@ import kotlin.random.Random
  * Boarding pass Class. Includes the builder Design patterns as an internal class.
  */
 class BoardingPass private constructor(builder: Builder) {
-    private var ticket: Ticket
+    var ticket: Ticket?
     var boardingTime: String?
     var gate: String?
     private var seat: String?
-    var passengerName: String?
+    var passenger : Passenger?
 
     init {
         boardingTime = builder.boardingTime
         gate = builder.gate
         seat = builder.seat
         ticket = builder.ticket
-        passengerName = builder.passengerName
+        passenger = builder.passenger
     }
 
-    class Builder(var ticket: Ticket) {
+    class Builder {
         var boardingTime: String? = null
         var gate: String? = null
         var seat: String? = null
-        var passengerName: String? = null
+        var passenger: Passenger? = null
+        var ticket: Ticket? = null
+
+        fun addTicket(t: Ticket): Builder{
+            this.ticket = t
+            return this
+        }
+
+        fun addPassenger(p: Passenger): Builder{
+            this.passenger = p
+            return this
+        }
 
         fun isFlying(): Builder {
-            this.passengerName = ticket.passenger?.firstname.plus(ticket.passenger?.lastName)
+            //println(passenger?.firstname)
             return this
         }
 
         fun withBoardingTime(): Builder {
-            this.boardingTime = ticket.flight.expectedTimeGateOpen
+            this.boardingTime = ticket?.flight?.expectedTimeGateOpen
             return this
         }
 
         fun atGate(): Builder {
-            this.gate = ticket.flight.gate
+            this.gate = ticket?.flight?.gate
             if (gate == null) {
                 println("Gate not set yet.")
             }
@@ -46,7 +57,7 @@ class BoardingPass private constructor(builder: Builder) {
 
         fun inSeat(): Builder {
             return try {
-                this.seat = Random.nextInt(0, ticket.flight.tp.size).toString()
+                this.seat = ticket?.flight?.tp?.let { Random.nextInt(0, it.size).toString() }
                 this
             } catch (e: Exception) {
                 e.printStackTrace()
