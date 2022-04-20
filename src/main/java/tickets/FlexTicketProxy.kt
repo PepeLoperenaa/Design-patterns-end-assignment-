@@ -51,5 +51,4 @@ class FlexTicketProxy {
         return ticket.passenger
 
     }
-
 }

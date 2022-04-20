@@ -56,6 +56,5 @@ object Main {
         pt.ticket.flight.gate
         airportApi.subscribe(flightList[1])
         airportApi.subscribe(noticeBoard)
-
     }
 }
