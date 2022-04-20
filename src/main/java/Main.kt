@@ -34,8 +34,19 @@ object Main {
         println("(we filled in date of birth and gender for brevity)")
         flightList[0].tp.acquireReusable()
         val pepe = Passenger(fName, lName, Date(1998, 11, 11), false)
+        println("Flight name please:")
+        val flightName = readLine()!!
+        lateinit var pickedFlight : Flight
+        for(flight in flightList){
+            pickedFlight = if(flight.flightName == flightName){
+                flight
+            } else {
+                flightList[1]
+            }
+        }
+        pickedFlight.tp.acquireReusable()
+        val ticket : Ticket = pickedFlight.tp.releaseTicket(pepe)
         val pt = FlexTicketProxy(pepe)
-        val ticket: Ticket = flightList[0].tp.releaseTicket(pepe)
         println("Thank you "+ ticket.passenger!!.firstname+". Your flight number is "+ticket.flight.flightNumber)
 
         println("Please look out for any updates to your flight number in the noticeboard above")
