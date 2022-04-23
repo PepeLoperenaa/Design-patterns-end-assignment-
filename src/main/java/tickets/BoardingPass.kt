@@ -1,5 +1,6 @@
 package tickets
 
+import flights.Flight
 import kotlin.random.Random
 
 /**
@@ -10,7 +11,7 @@ class BoardingPass private constructor(builder: Builder) {
     var boardingTime: String?
     var gate: String?
     private var seat: String?
-    var passenger : Passenger?
+    var passenger: Passenger?
 
     init {
         boardingTime = builder.boardingTime
@@ -20,28 +21,39 @@ class BoardingPass private constructor(builder: Builder) {
         passenger = builder.passenger
     }
 
+    /**
+     * Internal class Builder
+     */
     class Builder {
         var boardingTime: String? = null
         var gate: String? = null
         var seat: String? = null
-        var passenger: Passenger? = null
+        lateinit var passenger: Passenger
         var ticket: Ticket? = null
 
-        fun addTicket(t: Ticket): Builder{
-            this.ticket = t
-            return this
-        }
 
-        fun addPassenger(p: Passenger): Builder{
+        /**
+         * link passenger to boarding pass
+         */
+        fun addPassenger(p: Passenger): Builder {
             this.passenger = p
             return this
         }
 
-        fun isFlying(): Builder {
-            //println(passenger?.firstname)
+
+        fun addTicket(flight: Flight): Builder {
+            flight.tp.acquireReusable()
+            this.ticket = flight.tp.releaseTicket(passenger)
             return this
         }
 
+        fun isFlying(): Builder {
+            return this
+        }
+
+        /**
+         * Checks API for boarding time.
+         */
         fun withBoardingTime(): Builder {
             this.boardingTime = ticket?.flight?.expectedTimeGateOpen
             if (boardingTime == null) {
@@ -52,6 +64,9 @@ class BoardingPass private constructor(builder: Builder) {
             return this
         }
 
+        /**
+         * Checks API for gate.
+         */
         fun atGate(): Builder {
             this.gate = ticket?.flight?.gate
             if (gate == null) {
@@ -62,6 +77,10 @@ class BoardingPass private constructor(builder: Builder) {
             return this
         }
 
+        /**
+         * gets a random seat on the flight
+         * @exception e
+         */
         fun inSeat(): Builder {
             return try {
                 this.seat = ticket?.flight?.tp?.let { Random.nextInt(0, it.size).toString() }
@@ -71,14 +90,19 @@ class BoardingPass private constructor(builder: Builder) {
                 e.printStackTrace()
                 this
             }
-
         }
 
         /**
-         * actually builds the boarding pass and is always returned fully initialised
+         * Actually builds the boarding pass and is always returned fully initialised
+         * @return BoardingPass
+         * @exception NullPointerException  check ticket is !null
          */
         fun build(): BoardingPass {
-            return BoardingPass(this)
+            if (this.ticket == null) {
+                throw NullPointerException("There is no ticket assigned to this boardingpass")
+            } else {
+                return BoardingPass(this)
+            }
         }
     }
 }

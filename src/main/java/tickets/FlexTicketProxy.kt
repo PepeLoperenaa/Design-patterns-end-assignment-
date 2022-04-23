@@ -5,50 +5,65 @@ import flights.Flight
 /**
  * FlexTicketProxy class. Contains the methods and functions from ticket and has its own implementation.
  */
-class FlexTicketProxy {
-    lateinit var ticket: Ticket
+class FlexTicketProxy(passenger: Passenger, flight: Flight) : FlexTicket() {
+    var ticket: Ticket? = null
     private lateinit var ticketNum: String
+    private val p = passenger
+    private var flight = flight
     private val ticketType: TicketType = TicketType.FLEXTICKET
 
-    constructor(p: Passenger) {
-        ticket = Ticket(p,"0")
-    }
-    constructor(ticket: Ticket){
-        this.ticket = ticket
-    }
     /**
      * it gets the ticket number
      */
     fun getTicketNum(): String {
-        return ticket.ticketNum
+        checkTicket()
+        return ticket!!.ticketNum
     }
 
-    fun setTicketNum(ticketNum : String){
-        this.ticket.ticketNum = ticketNum
+    fun setTicketNum(ticketNum: String) {
+        checkTicket()
+        this.ticket!!.ticketNum = ticketNum
     }
 
-    fun setTicketFlight(flight: Flight){
-        this.ticket.flight = flight
+    fun setTicketFlight(flight: Flight) {
+        checkTicket()
+        this.ticket!!.flight = flight
     }
 
-    fun setTicketType(ticketType: TicketType){
-        this.ticket.ticketType = ticketType
+    fun setTicketType(ticketType: TicketType) {
+        checkTicket()
+        this.ticket!!.ticketType = ticketType
     }
-    
+
 
     /**
      * Getting the flight from the ticket.
      */
     fun getFlight(): Flight? {
-        return ticket.flight
-
+        checkTicket()
+        return ticket!!.flight
     }
 
     /**
      * Getting the passenger information from the ticket.
      */
     fun getPassenger(): Passenger? {
-        return ticket.passenger
+        checkTicket()
+        return ticket!!.passenger
+    }
 
+    override fun changeFlight(flight: Flight) {
+        this.flight = flight
+        this.flight.tp.acquireReusable()
+        this.ticket = this.flight.tp.releaseTicket(p)
+    }
+
+    /**
+     * Method to check if the ticket is null.
+     */
+    private fun checkTicket() {
+        if (this.ticket == null) {
+            changeFlight(flight)
+        }
     }
 }

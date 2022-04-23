@@ -15,41 +15,29 @@ import org.json.simple.JSONObject
 import org.json.simple.parser.JSONParser
 import java.io.IOException
 
+/**
+ * AirportApi class, connects and retrieves from Schiphol API
+ */
 class AirportApi {
     private var observers: ArrayList<FlightObserver> = ArrayList()
     private lateinit var flightList: ArrayList<Flight>
-    private val t : Thread
+    private val t: Thread
 
 
     init {
+        /**
+         * Creating a thread that keeps running while the application is running to observe the subscribed items.
+         */
         t = Thread {
             while (true) {
-                val tmpList: ArrayList<Flight> = flights
-                for (element in tmpList) {
-                    for (observer in observers) {
-                        if (observer.isFlight()) {
-                            val tmpFlight: Flight = observer as Flight
-                            if (element.flightNumber == tmpFlight.flightNumber) {
-                                observer.update(tmpList)
-                            }
-                        }
-                        if (!observer.isFlight()) {
-                            val noticeBoard: NoticeBoard = observer as NoticeBoard
-                            for (item in noticeBoard.flights) {
-                                if(item.flightName == element.flightName) {
-                                    if (element.toString() != item.toString()) {
-                                        noticeBoard.update(tmpList)
-                                        break
-                                    }
-                                }
-                            }
-                        }
-                    }
+                for (observer in observers) {
+                    observer.update(flights)
                 }
                 Thread.sleep(120_000)
             }
         }
     }
+
     /**
      * API information
      */
@@ -71,7 +59,7 @@ class AirportApi {
                     val parser = JSONParser()
                     val json = parser.parse(responseBody) as JSONObject
                     val flights: JSONArray = json["flights"] as JSONArray
-                    flightList = arrayListOf()
+                    flightList = arrayListOf()//create arraylist of flights
                     for (element in flights) {
                         try {
                             // general flight information
@@ -131,23 +119,30 @@ class AirportApi {
         }
 
 
-
+    /**
+     * subscribe method, adds observer to the observers list
+     * @param FlightObserver
+     */
     fun subscribe(o: FlightObserver) {
         observers.add(o)
-        if(!t.isAlive){
+        if (!t.isAlive) {
             startObserver()
         }
     }
 
+    /**
+     * unsubscribe method, removes observer from observers list
+     * @param FlightObserver
+     */
     fun unsubscribe(o: FlightObserver) {
         observers.remove(o)
     }
 
-    private fun startObserver(){
+    /**
+     * startObserver method, start thread
+     */
+    private fun startObserver() {
         t.start()
     }
 
-    private fun notifyObservers() {
-
-    }
 }

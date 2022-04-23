@@ -2,7 +2,6 @@ package flights
 
 import interfaces.FlightObserver
 import tickets.TicketPool
-import java.io.Console
 
 /**
  * Flight observer class. Contains all the information of the API.
@@ -35,7 +34,6 @@ class Flight : FlightObserver {
     lateinit var tp: TicketPool
 
 
-
     /**
      * Set the ticket pool depending on the aircraft type.
      */
@@ -59,27 +57,72 @@ class Flight : FlightObserver {
             if (flight.flightNumber == this.flightNumber) {
                 if (this.estimatedLandingTime != flight.estimatedLandingTime) {
                     this.estimatedLandingTime = flight.estimatedLandingTime
-                } else if (this.lastUpdated != flight.lastUpdated) {
+                }
+                if (this.lastUpdated != flight.lastUpdated) {
                     this.lastUpdated = flight.lastUpdated
-                } else if (this.pier != flight.pier) {
+                }
+                if (this.pier != flight.pier) {
                     this.pier = flight.pier
-                } else if (this.gate != flight.gate) {
+                }
+                if (this.gate != flight.gate) {
                     this.gate = flight.gate
-                } else if (this.terminal != flight.terminal) {
+                }
+                if (this.terminal != flight.terminal) {
                     this.terminal = flight.terminal
-                } else if (this.actualLandingTime != flight.actualLandingTime) {
+                }
+                if (this.actualLandingTime != flight.actualLandingTime) {
                     this.actualLandingTime = flight.actualLandingTime
                 }
             }
         }
     }
 
+
+    /**
+     * Formatting of the table printed out.
+     */
     override fun toString(): String {
-         return String.format( "%11s | %30s | %30s | %8s | %8s | %12s | %30s | %30s",flightName,estimatedLandingTime,actualLandingTime,terminal,gate,flightNumber,scheduleDateTime,lastUpdated)
+        return String.format(
+            "%11s | %30s | %30s | %8s | %8s | %12s | %30s | %30s",
+            flightName,
+            estimatedLandingTime,
+            actualLandingTime,
+            terminal,
+            gate,
+            flightNumber,
+            scheduleDateTime,
+            lastUpdated
+        )
     }
 
     override fun isFlight(): Boolean {
         return true
+    }
+
+    /**
+     * Overriding the equals function to compare the Flight objects based on the values that are assigned to them.
+     * This is used in the noticeboard to compare the 2 lists.
+     */
+    override fun equals(other: Any?): Boolean {
+        if (this === other)
+            return true
+
+        /**
+         * checking for two condition:
+         * 1) object is pointing to null
+         * 2) if the objects belong to the same class or not
+         */
+        if (other == null || other::class != this::class)
+            return false
+        /**
+         * casting the other object to the Flight class, the intended class.
+         */
+        val obj: Flight = other as Flight
+
+        /**
+         * Checking if the 2 objects are the same by comparing the output strings
+         */
+        return this.toString() == obj.toString()
     }
 
 }

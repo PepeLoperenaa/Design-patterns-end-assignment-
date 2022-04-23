@@ -20,11 +20,13 @@ class TicketPool(size: Int, flight: Flight) {
      * Acquire blank tickets.
      */
     fun acquireReusable() { //create ticket instances
-        for (j in 0 until size) {
-            val t = Ticket(flight.flightNumber.toString() + j, flight)
-            t.flight = flight //change with setter when tickets are called.
-            pool.add(t) //adding first ticket
-        } //this method works and stops creating blank tickets when the default size is reached.
+        if (pool.size < 1) {
+            for (j in 0 until size) {
+                val t = Ticket(flight.flightNumber.toString() + j, flight)
+                t.flight = flight //change with setter when tickets are called.
+                pool.add(t) //adding first ticket
+            } //this method works and stops creating blank tickets when the default size is reached.
+        }
     }
 
     /**
@@ -39,4 +41,5 @@ class TicketPool(size: Int, flight: Flight) {
         t.passenger = p
         return t
     }
+
 }

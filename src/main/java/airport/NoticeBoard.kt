@@ -14,21 +14,43 @@ class NoticeBoard(flights: ArrayList<Flight>) : FlightObserver {
         printNoticeboard()
     }
 
+    /**
+     * Updating notice board. Observer Design pattern
+     */
     override fun update(flights: ArrayList<Flight>) {
-        this.flights = flights
-        printNoticeboard()
+        /**
+         * Comparing the old and new list of flights to see if anything changed.
+         * If so it will update the list in this object and reprint the noticeboard
+         */
+        if (flights != this.flights) {
+            this.flights = flights
+            printNoticeboard()
+        }
     }
 
     override fun isFlight(): Boolean {
         return false
     }
 
+
     /**
      * Printing the notice board
      */
     private fun printNoticeboard() {
         var i = 0
-        print(String.format("%11s | %30s | %30s | %8s | %8s | %12s | %30s | %30s \n","Flight name","estimated Landing Time" , "actual landing time" , "terminal" , "gate ", "flightnumber" , "scheduled date","last updated"))
+        print(
+            String.format(
+                "%11s | %30s | %30s | %8s | %8s | %12s | %30s | %30s \n",
+                "Flight name",
+                "estimated Landing Time",
+                "actual landing time",
+                "terminal",
+                "gate ",
+                "flightnumber",
+                "scheduled date",
+                "last updated"
+            )
+        )
         while (flights.size > i) {
             println(flights[i].toString())
             i++
