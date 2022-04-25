@@ -28,10 +28,6 @@ class NoticeBoard(flights: ArrayList<Flight>) : FlightObserver {
         }
     }
 
-    override fun isFlight(): Boolean {
-        return false
-    }
-
 
     /**
      * Printing the notice board

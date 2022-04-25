@@ -95,9 +95,6 @@ class Flight : FlightObserver {
         )
     }
 
-    override fun isFlight(): Boolean {
-        return true
-    }
 
     /**
      * Overriding the equals function to compare the Flight objects based on the values that are assigned to them.
